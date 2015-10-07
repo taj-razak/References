@@ -8,7 +8,7 @@ var express = require('express'),
     session = require('express-session'),
     fs = require('fs'),
     jsreport = require('jsreport'),
-
+   
 
 
 
@@ -22,12 +22,18 @@ var express = require('express'),
     checkForSession = require('./controllers/SessionCheckCtrl.js');
 
 
+var privateKey  = fs.readFileSync('./key.pem', 'utf8'),
+certificate = fs.readFileSync('./key-cert.pem', 'utf8'),
+ credentials = {key: privateKey, cert: certificate};
 
 
 var app = express(),
 
-    http = require('http').Server(app),
-    io = require('socket.io')(http);
+    https = require('https').createServer(credentials,app),
+    io = require('socket.io')(https);
+
+
+
 
 app.use(express.static(__dirname + '/config'))
 app.use(express.static(__dirname + '/controllers'))
@@ -98,9 +104,11 @@ app.get('/logout', function (req, res) {
     res.redirect('/#/')
 })
 
-http.listen(3000, function () {
-    console.log('3000');
-})
+
+
+https.listen(3000,function(){
+console.log("listening 3000")
+});
 
 
 io.on("connection", function (socket) {
