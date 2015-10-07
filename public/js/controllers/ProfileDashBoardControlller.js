@@ -1,0 +1,62 @@
+app.controller('ProfileDashBoardCtrl', ['$scope', '$http', '$state', '$document', '$location', 'socketServe', 'templateService', '$compile', '$window', function ($scope, $http, $state, $document, $location, socketServe, templateService, $compile, $window) {
+
+    var socket = socketServe.socket;
+
+
+    $scope.posts = {};
+
+
+
+    //this will change the state of the $stateProvider in the router................... 
+    $state.go('userHome');
+
+    $document.ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    })
+
+
+    //checking For Session it already existed or not if session is existed than retrive the userdata.......
+    $http.get('/sessionCheck').success(function (data) {
+
+        if (data) {
+            $http.get('/getUserDetails').success(function (data) {
+
+                console.log(data);
+                $scope.username = data.FirstName + " " + data.LastName;
+                $scope.email = data.Email;
+            })
+
+        } else {
+            $location.path('/')
+        }
+    })
+
+
+
+
+
+    //sending the post content to the backend which saves into database.................
+    $scope.addPost = function (showUserData) {
+
+        console.log($scope.posts.content)
+
+        $http.post("/textPosted", {
+            content: $scope.posts.content
+        }).success(function (data) {
+
+            if (data) {
+                showUserData.unshift(data)
+                $scope.posts = {};
+                //socket code which call the socket.on at backend........................
+                socket.emit("clientPost", {
+                    clientPostData: data
+                });
+            }
+
+        })
+
+    }
+
+
+
+ }])

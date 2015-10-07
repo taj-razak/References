@@ -1,0 +1,60 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-10 col-sm-offset-1" id="logout">
+            <div class="page-header">
+                <h3 class="reviews">Leave your post</h3>
+
+            </div>
+            <div class="comment-tabs">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="comments-logout">
+                        <ul class="media-list">
+
+                            <!-- Comments BOX -->
+                            <div class="tab-pane">
+                                <div class="alert alert-info alert-dismissible" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert">
+                                        <span>×</span><span class="sr-only">Close</span>
+                                    </button>
+                                    <strong>Hey!</strong> If you already have an account now to make the posts you want
+                                    <a href="#" class="alert-link"></a>
+                                </div>
+                                <form name="postForm" class="form-horizontal" id="commentForm" role="form" novalidate>
+                                    <div class="form-group">
+                                        <label for="email" class="col-sm-2 control-label">Post</label>
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control" name="addComment" id="addComment" rows="5" ng-model="posts.content" required></textarea>
+                                        </div>
+                                    </div>
+                                    <!--   <div class="form-group">
+                  <label for="uploadMedia" class="col-sm-2 control-label">Upload media</label>
+                  <div class="col-sm-10">                    
+                    <div class="input-group">
+                      <div class="input-group-addon">http://</div>
+                      <input type="text" class="form-control" name="uploadMedia" id="uploadMedia" disabled>
+                    </div>
+                  </div>
+                </div> -->
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <button class="btn btn-success btn-circle text-uppercase" ng-disabled="postForm.addComment.$error.required" type="submit" id="submitComment" ng-click="addPost(showUserData)"><span class="glyphicon glyphicon-send"></span> Summit comment</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- Comments BOX end -->
+
+                            <!-- Comments blocks -->
+
+                            <posts-Dir></posts-Dir>
+
+                            <!-- Comments blocks ended -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+</div>

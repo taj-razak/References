@@ -1,0 +1,37 @@
+app.directive('postsDir', function ($compile, socketServe, templateService, $http, $window) {
+
+
+    var socket = socketServe.socket;
+
+
+    return {
+
+        restrict: 'E',
+        template: '<ul class="media-list"></ul>',
+        link: function (scope, elem, attr) {
+
+            var maintemp = $compile(templateService.MainTemplate)(scope);
+
+            $http.get('/getPosts').success(function (data) {
+
+                console.log(data)
+                scope.showUserData = data;
+                elem.append(maintemp);
+
+            })
+
+
+            socket.on("GettingPost", function (msg) {
+                console.log("sended")
+                $window.location.reload();
+            })
+
+
+        }
+
+    }
+
+
+
+
+})

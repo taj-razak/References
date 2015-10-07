@@ -1,0 +1,47 @@
+<div class="container" ng-controller='signupCtrl'>
+    <div class="row">
+        <div class='col-xs-4'></div>
+        <div class="col-xs-12 col-md-4 well ">
+            <legend><a href="https://www.google.com"><i class="glyphicon glyphicon-globe"></i></a> Sign up!</legend>
+            <form name='userForm' class="form" role="form">
+                <div class="row">
+                    <div class="col-xs-6 col-md-6">
+                        <input class="form-control" name="firstname" placeholder="First Name" type="text" ng-model='user.firstname' required autofocus/>
+                    </div>
+                    <div class="col-xs-6 col-md-6">
+                        <input class="form-control" name="lastname" placeholder="Last Name" type="text" ng-model='user.lastname' />
+                    </div>
+                </div>
+
+                <input class="form-control" name="youremail" placeholder="Your Email" type="email" ng-model='user.email' />
+
+
+                <input class="form-control" name="password" placeholder="New Password" type="password" ng-model='user.password' />
+
+
+                <input class="form-control" name="renterpassword" placeholder="Re-enter Password" type="Password" />
+
+                <input class="form-control" type="text" id="datepicker" ng-model='user.dateofbirth' placeholder='Date Of Birth'>
+                <br>
+                <label class="radio-inline">
+                    <input type="radio" name="sex" id="inlineCheckbox1" value="male" ng-model='user.gender' /> Male
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="sex" id="inlineCheckbox2" value="female" ng-model='user.gender' /> Female
+                </label>
+                <br />
+                <br />
+
+                <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click='submittedData()'>
+                    Sign up</button>
+                <br>
+
+                <a href="#/login" class="text-center new-account">Login account</a>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+</div>
