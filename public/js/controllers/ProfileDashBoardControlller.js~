@@ -4,9 +4,7 @@ app.controller('ProfileDashBoardCtrl', ['$scope', '$http', '$state', '$document'
 
 
     $scope.posts = {};
-    $scope.usercomt = {};
-
-    $scope.havelike = true;
+   $scope.comment={};
 
 
     //this will change the state of the $stateProvider in the router................... 
@@ -60,38 +58,12 @@ app.controller('ProfileDashBoardCtrl', ['$scope', '$http', '$state', '$document'
     }
 
 
-    //sending and adding the comments to the posts.................
-    $scope.addComment = function (udata) {
-        console.log(udata.userid)
+  //sending and adding the comments to the posts.................
+	$scope.addComment=function(){
 
-        // console.log(cometline)
+      console.log($scope.comment)
+	}
 
-
-        $http.post('/postcomment', {
-            comment: udata.commented,
-            id: udata.userid
-        }).success(function (data) {
-            // console.log(data);
-            //console.log($scope.showUserData)
-
-            udata.comments.unshift(data.comments[0]); //issue
-            console.log($scope.commented)
-
-            //console.log(data.comments)
-            //here cobj is comments object and 'cid' comment id (this id use to identify the user's post object)
-            socket.emit("sendcomment", {
-                cobj: data.comments[0],
-                uid: udata.userid
-            });
-
-            udata.commented = "";
-
-        });
-
-
-
-        //console.log($scope.commented)
-    }
 
 
 

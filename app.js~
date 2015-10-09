@@ -8,8 +8,7 @@ var express = require('express'),
     session = require('express-session'),
     fs = require('fs'),
     jsreport = require('jsreport'),
-
-
+   
 
 
 
@@ -20,21 +19,17 @@ var express = require('express'),
     getUserDetails = require('./controllers/GetUserDataCtrl.js'),
     savePost = require('./controllers/SavePostCtrl.js'),
     getPostsOfUsers = require('./controllers/GetPostsCtrl.js'),
-    checkForSession = require('./controllers/SessionCheckCtrl.js'),
-    saveComment = require('./controllers/SaveComments.js');
+    checkForSession = require('./controllers/SessionCheckCtrl.js');
 
 
-var privateKey = fs.readFileSync('./key.pem', 'utf8'),
-    certificate = fs.readFileSync('./key-cert.pem', 'utf8'),
-    credentials = {
-        key: privateKey,
-        cert: certificate
-    };
+var privateKey  = fs.readFileSync('./key.pem', 'utf8'),
+certificate = fs.readFileSync('./key-cert.pem', 'utf8'),
+ credentials = {key: privateKey, cert: certificate};
 
 
 var app = express(),
 
-    https = require('https').createServer(credentials, app),
+    https = require('https').createServer(credentials,app),
     io = require('socket.io')(https);
 
 
@@ -101,11 +96,7 @@ app.post('/textPosted', savePost)
 app.get('/getPosts', getPostsOfUsers);
 
 
-app.get('/sessionCheck', checkForSession);
-
-app.post('/postcomment', saveComment);
-
-
+app.get('/sessionCheck', checkForSession)
 
 app.get('/logout', function (req, res) {
     req.session.destroy();
@@ -115,27 +106,19 @@ app.get('/logout', function (req, res) {
 
 
 
-https.listen(3000, function () {
-    console.log("listening 3000")
+https.listen(3000,function(){
+console.log("listening 3000")
 });
 
 
 io.on("connection", function (socket) {
     socket.on("clientPost", function (msg) {
 
-        console.log("socket" + msg)
+console.log(msg)
 
         socket.broadcast.emit("GettingPost", {
             post: msg
         });
     })
-
-    socket.on("sendcomment", function (msg) {
-
-        console.log("socket")
-        console.log(msg)
-        socket.broadcast.emit("GettingComment", msg);
-    })
-
 
 })

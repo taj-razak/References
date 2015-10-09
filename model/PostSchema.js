@@ -19,17 +19,7 @@ module.exports = mongoose.model('posts', {
     },
     likes: [],
 
-    comments: [{
-
-        user_id: {
-            type: String,
-            required: true
-        },
-        comment_content: {
-            type: String,
-            required: true
-        }
-	}]
+    comments: []
 
 
 })
