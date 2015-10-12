@@ -21,7 +21,8 @@ var express = require('express'),
     savePost = require('./controllers/SavePostCtrl.js'),
     getPostsOfUsers = require('./controllers/GetPostsCtrl.js'),
     checkForSession = require('./controllers/SessionCheckCtrl.js'),
-    saveComment = require('./controllers/SaveComments.js');
+    saveComment = require('./controllers/SaveComments.js'),
+    saveLike = require('./controllers/SaveLikeCtrl.js');
 
 
 var privateKey = fs.readFileSync('./key.pem', 'utf8'),
@@ -105,6 +106,7 @@ app.get('/sessionCheck', checkForSession);
 
 app.post('/postcomment', saveComment);
 
+app.post('/like', saveLike);
 
 
 app.get('/logout', function (req, res) {

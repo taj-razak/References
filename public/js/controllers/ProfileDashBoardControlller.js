@@ -26,6 +26,8 @@ app.controller('ProfileDashBoardCtrl', ['$scope', '$http', '$state', '$document'
                 console.log(data);
                 $scope.username = data.FirstName + " " + data.LastName;
                 $scope.email = data.Email;
+                $scope.loggerid = data._id;
+
             })
 
         } else {
@@ -93,7 +95,29 @@ app.controller('ProfileDashBoardCtrl', ['$scope', '$http', '$state', '$document'
         //console.log($scope.commented)
     }
 
+    $scope.likeAndDislike = function (userid, like) {
+            // console.log(userid)
+            //console.log(like)
+            if (like == true) {
+                like = false;
 
+            } else {
+                like = true;
+
+            }
+            //console.log(like)
+            $http.post('/like', {
+                postid: userid,
+                likeStatus: !like
+            }).success(function (data) {
+                console.log(data);
+            })
+
+        }
+        //    $scope.disLike = function (userid) {
+        //        $scope.havelike = true;
+        //        console.log(userid)
+        //    }
 
 
  }])
