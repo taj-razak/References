@@ -32,8 +32,22 @@ module.exports = function (req, res) {
             } else {
                 console.log(req.body.likeStatus)
 
-                //implement.....................
-                res.send(false)
+                var index = data.likes.indexOf(data.likes.filter(function (e) {
+                    e.likerid == req.body.postid
+                })[0]);
+
+                data.likes.splice(index, 1);
+                data.save(function (err, data) {
+                    if (!err) {
+                        console.log("like removed")
+
+                        res.send(true)
+                    } else {
+                        console.log(e.message)
+                        res.send(false)
+                    }
+
+                })
             }
             //res.send(true)
         }
