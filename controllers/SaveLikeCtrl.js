@@ -6,7 +6,7 @@ module.exports = function (req, res) {
     console.log(req.body.postid)
 
 
-    //used $push and $pull for adding new data and removing the existing data.......................
+    //used $push and $pull for adding new data and removing the existing data.......................//
 
     if (req.body.likeStatus) {
 
