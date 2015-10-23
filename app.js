@@ -91,6 +91,25 @@ app.post('/saveUserData', userDataSave)
 //Check user is valid or not in database................................ 
 app.post('/loginuser', loginUser);
 
+
+app.get('/verify/:code',function(req,res){
+console.log(req.params.code)
+
+userSchema.update({VerifyCode:req.params.code},{Verified:true},function(err,data){
+	if(!err)
+	{
+		res.redirect('/#/');	
+	}
+
+
+})
+
+
+ 
+})
+
+
+
 //it will be call when the user changes the url than it will be call and checks for session...........
 app.get('/loginuser', loginUserSessionCheckGetMethod);
 
@@ -114,6 +133,25 @@ app.get('/logout', function (req, res) {
 
     res.redirect('/#/')
 })
+
+
+//ramesh testing code..................
+
+app.post('/androidCall?', function (req, res) {
+
+   console.log(req)
+  
+    userSchema.findOne({
+        FirstName: "ramesh"
+    }, function (err, data) {
+
+        //console.log(typeof data)
+console.log(req.query.call)        
+res.send(true);
+
+    })
+
+});
 
 
 

@@ -8,7 +8,8 @@ var express = require('express'),
     session = require('express-session'),
     fs = require('fs'),
     jsreport = require('jsreport'),
-   
+
+
 
 
 
@@ -19,17 +20,22 @@ var express = require('express'),
     getUserDetails = require('./controllers/GetUserDataCtrl.js'),
     savePost = require('./controllers/SavePostCtrl.js'),
     getPostsOfUsers = require('./controllers/GetPostsCtrl.js'),
-    checkForSession = require('./controllers/SessionCheckCtrl.js');
+    checkForSession = require('./controllers/SessionCheckCtrl.js'),
+    saveComment = require('./controllers/SaveComments.js'),
+    saveLike = require('./controllers/SaveLikeCtrl.js');
 
 
-var privateKey  = fs.readFileSync('./key.pem', 'utf8'),
-certificate = fs.readFileSync('./key-cert.pem', 'utf8'),
- credentials = {key: privateKey, cert: certificate};
+var privateKey = fs.readFileSync('./key.pem', 'utf8'),
+    certificate = fs.readFileSync('./key-cert.pem', 'utf8'),
+    credentials = {
+        key: privateKey,
+        cert: certificate
+    };
 
 
 var app = express(),
 
-    https = require('https').createServer(credentials,app),
+    https = require('https').createServer(credentials, app),
     io = require('socket.io')(https);
 
 
@@ -85,6 +91,25 @@ app.post('/saveUserData', userDataSave)
 //Check user is valid or not in database................................ 
 app.post('/loginuser', loginUser);
 
+
+app.get('/verify/:code',function(req,res){
+console.log(req.params.code)
+
+userSchema.update({VerifyCode:req.params.code},{Verified:true},function(err,data){
+	if(!err)
+	{
+		res.redirect('/#/');	
+	}
+
+
+})
+
+
+ 
+})
+
+
+
 //it will be call when the user changes the url than it will be call and checks for session...........
 app.get('/loginuser', loginUserSessionCheckGetMethod);
 
@@ -96,7 +121,12 @@ app.post('/textPosted', savePost)
 app.get('/getPosts', getPostsOfUsers);
 
 
-app.get('/sessionCheck', checkForSession)
+app.get('/sessionCheck', checkForSession);
+
+app.post('/postcomment', saveComment);
+
+app.post('/like', saveLike);
+
 
 app.get('/logout', function (req, res) {
     req.session.destroy();
@@ -105,20 +135,47 @@ app.get('/logout', function (req, res) {
 })
 
 
+//ramesh testing code..................
 
-https.listen(3000,function(){
-console.log("listening 3000")
+app.post('/androidCall?', function (req, res) {
+
+   console.log(req)
+  
+    userSchema.findOne({
+        FirstName: "ramesh"
+    }, function (err, data) {
+
+        //console.log(typeof data)
+console.log(req.query.call)        
+res.send(true);
+
+    })
+
+});
+
+
+
+https.listen(3000, function () {
+    console.log("listening 3000")
 });
 
 
 io.on("connection", function (socket) {
     socket.on("clientPost", function (msg) {
 
-console.log(msg)
+        console.log("socket" + msg)
 
         socket.broadcast.emit("GettingPost", {
             post: msg
         });
     })
+
+    socket.on("sendcomment", function (msg) {
+
+        console.log("socket")
+        console.log(msg)
+        socket.broadcast.emit("GettingComment", msg);
+    })
+
 
 })
